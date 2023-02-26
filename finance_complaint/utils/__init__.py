@@ -1,4 +1,4 @@
-from .exception import FinanceException
+from finance_complaint.exception import FinanceException
 import yaml
 import os
 

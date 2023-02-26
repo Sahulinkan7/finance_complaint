@@ -34,7 +34,7 @@ class FinanceConfig:
     def get_data_ingestion_config(self,from_date=DATA_INGESTION_MIN_START_DATE,to_date=None)->DataIngestionConfig:
         try:
             min_start_date=datetime.strptime(DATA_INGESTION_MIN_START_DATE,"%Y-%m-%d")
-            from_date_obj=datetime().strptime(from_date,"%Y-%m-%d")
+            from_date_obj=datetime.strptime(from_date,"%Y-%m-%d")
 
             if from_date_obj<min_start_date:
                 from_date=DATA_INGESTION_MIN_START_DATE
@@ -47,6 +47,7 @@ class FinanceConfig:
             data_ingestion_dir=os.path.join(data_ingestion_master_dir,self.timestamp)
 
             metadata_file_path=os.path.join(data_ingestion_master_dir,DATA_INGESTION_METADATA_FILE_NAME)
+            logging.info(f"metadata file path : {metadata_file_path}")
 
             data_ingestion_metadata=DataIngestionMetadata(metadata_file_path=metadata_file_path)
 

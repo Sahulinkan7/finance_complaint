@@ -33,7 +33,7 @@ class DataIngestionMetadata:
                 raise Exception("No metadata Available")
             metadata=read_yaml_file(file_path=self.metadata_file_path)
             metadata_info=DataIngestionMetadataInfo(**(metadata))
-            logger.info(metadata)
+            logging.info(metadata)
             return metadata_info
         except Exception as e:
             raise FinanceException(e,sys) from e
