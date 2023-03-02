@@ -2,7 +2,8 @@ from finance_complaint.exception import FinanceException
 from finance_complaint.logger import logging
 import os,sys
 from datetime import datetime
-from finance_complaint.entity.config_entity import DataIngestionConfig,TrainingPipelineConfig
+from finance_complaint.entity.config_entity import (DataIngestionConfig,TrainingPipelineConfig,
+                                                    DataValidationConfig)
 from finance_complaint.constant.training_pipeline_config import *
 from finance_complaint.constant import TIMESTAMP
 from finance_complaint.entity.metadata_entity import DataIngestionMetadata
@@ -71,9 +72,22 @@ class FinanceConfig:
         except Exception as e:
             raise FinanceException(e, sys) from e
 
-    def get_data_validation_config(self):
+    def get_data_validation_config(self)->DataValidationConfig:
         try:
-            pass
+            data_validation_dir=os.path.join(self.training_pipeline_config.artifact_dir,
+                                            DATA_VALIDATION_DIR,self.timestamp)
+            
+            accepted_data_dir=os.path.join(data_validation_dir,DATA_VALIDATION_ACCEPTED_DATA_DIR)
+            rejected_data_dir=os.path.join(data_validation_dir,DATA_VALIDATION_REJECTED_DATA_DIR)
+
+            data_validation_config=DataValidationConfig(
+                                    accepted_data_dir=accepted_data_dir,
+                                    rejected_data_dir=rejected_data_dir,
+                                    file_name=DATA_VALIDATION_FILE_NAME
+                                    )
+
+            logging.info(f"data validation config : {data_validation_config}")
+            return data_validation_config
         except Exception as e:
             raise FinanceException(e,sys) from e
 
